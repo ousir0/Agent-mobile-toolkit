@@ -1,50 +1,39 @@
 # Agent Mobile Toolkit
 
-Agent Mobile Toolkit is a standalone mobile bridge project for AI agents.
+[中文说明](./README.zh-CN.md)
 
-It turns an Android phone into a reusable automation endpoint that can be connected to Codex, OpenClaw, Claude, or any MCP-compatible agent runtime.
+Turn an Android phone into a reusable mobile tool endpoint for Codex, OpenClaw, Claude, and other MCP-compatible agents.
 
-## What it solves
+## ✨ What this project is
 
-Most agent runtimes can call browser tools, local shell tools, or APIs, but they still lack a clean, reusable mobile execution layer.
+Agent Mobile Toolkit packages the full mobile automation path into one repo:
 
-This project fills that gap by packaging four pieces together:
+1. 📱 Android Portal app running on the phone
+2. 🔌 Reverse WebSocket bridge running on your computer
+3. 🧠 MCP server for Codex and Claude
+4. 🛠️ OpenClaw plugin, skill assets, and workflow assets
 
-1. An Android Portal app that runs on the phone
-2. A reverse WebSocket bridge that the phone connects to
-3. An MCP server for Codex and Claude
-4. An OpenClaw plugin plus bootstrap assets for workflows and skills
+This means you can connect one phone and reuse it across multiple agent runtimes instead of building a new mobile integration for each one.
 
-The result is simple:
+## 🎯 Typical scenarios
 
-1. Install the APK on an Android phone
-2. Start the local bridge on your computer
-3. Connect the phone with a custom WebSocket address
-4. Let your agent call mobile tools directly
+Use Agent Mobile Toolkit when your agent needs to:
 
-## Typical scenarios
+1. 🔍 Read the current Android UI tree
+2. 🚀 Open apps and navigate mobile flows
+3. 👆 Find and click UI elements by selector
+4. ⌨️ Input text into search bars, forms, or chat boxes
+5. 📸 Capture screenshots for reasoning and verification
+6. 🔁 Reuse the same mobile workflow across Codex, OpenClaw, and Claude
 
-Use Agent Mobile Toolkit when you want an agent to:
+Typical real-world examples:
 
-1. Read the current mobile UI tree
-2. Open an app on Android
-3. Find and click elements by selector
-4. Input text into search bars, forms, or chat boxes
-5. Capture screenshots for reasoning or verification
-6. Build repeatable mobile workflows that can be shared across projects
+1. 📈 Mobile growth operations and lead capture
+2. 🧾 Xiaohongshu search and mobile content workflows
+3. 🤖 Android task automation from Codex or Claude
+4. 🧰 Tool, skill, and workflow distribution for OpenClaw-style workspaces
 
-Typical examples:
-
-1. Xiaohongshu search and content collection
-2. Mobile growth operations and lead capture flows
-3. Android task automation from Codex or Claude
-4. OpenClaw-based tool distribution and workflow initialization
-
-## How it works
-
-The phone does not connect to Codex directly.
-
-Instead, the connection path is:
+## 🧭 How it works
 
 ```text
 Android Portal APK
@@ -53,34 +42,16 @@ Android Portal APK
   -> Codex / OpenClaw / Claude
 ```
 
-This makes the project easier to deploy, easier to debug, and easier to reuse across different agent products.
+The phone does not talk to the agent directly.  
+It connects to a bridge, and the bridge exposes stable agent-facing tools.
 
-## Project structure
+## 🧩 Supported runtimes
 
-1. `app/`
-   Android Portal source code
-2. `src/bridge-server.js`
-   Reverse bridge server that accepts phone connections and exposes `/bridge`
-3. `src/mcp-server.js`
-   MCP server for Codex and Claude
-4. `integrations/openclaw/mobile-tools/`
-   OpenClaw plugin
-5. `scripts/bootstrap.mjs`
-   Bootstrap generator for Codex, Claude, OpenClaw, skills, and workflows
-6. `skills/mobile-toolkit/`
-   Reusable mobile skill template
-7. `workflows/`
-   Reusable workflow templates
+1. Codex via MCP
+2. Claude via MCP
+3. OpenClaw via local plugin callback mode
 
-## Supported runtimes
-
-1. Codex through MCP
-2. Claude through MCP
-3. OpenClaw through local plugin callback mode
-
-## Mobile tools exposed
-
-The bridge currently exposes tools such as:
+## 🛠️ Exposed mobile tools
 
 1. `mobile_list_devices`
 2. `mobile_read_state`
@@ -90,9 +61,25 @@ The bridge currently exposes tools such as:
 6. `mobile_input_text`
 7. `mobile_capture_screen`
 
-These are intended to be the stable base layer for higher-level mobile workflows.
+These are the stable low-level tools you can build workflows on top of.
 
-## Quick start
+## 📦 APK download
+
+Direct APK download:
+
+1. [Download debug APK](https://github.com/ousir0/Agent-mobile-toolkit/releases/download/v0.1.0/com.droidrun.portal-0.6.4-debug.apk)
+
+Release page:
+
+1. [GitHub Releases](https://github.com/ousir0/Agent-mobile-toolkit/releases)
+
+Local build output:
+
+```text
+app/build/outputs/apk/debug/com.droidrun.portal-0.6.4-debug.apk
+```
+
+## 🚀 Quick start
 
 Install dependencies:
 
@@ -115,40 +102,34 @@ Token: 123456
 
 Notes:
 
-1. The phone must use a full WebSocket URL
-2. The URL must include `/v1/providers/personal/join`
-3. The token is entered separately, not appended to the URL
-4. The phone and computer must be on the same LAN
+1. Use a full WebSocket URL
+2. Include `/v1/providers/personal/join`
+3. Enter the token separately
+4. Keep the phone and computer on the same LAN
 
-## APK
+## 💬 Quick install from a chat
 
-This repository contains the Android Portal source code and can build the APK locally.
+If you want an agent to help install and wire things up, start with one of these prompts.
 
-Debug APK output path:
-
-```text
-app/build/outputs/apk/debug/
-```
-
-Typical file name:
+Codex:
 
 ```text
-com.droidrun.portal-0.6.4-debug.apk
+Install Agent Mobile Toolkit from https://github.com/ousir0/Agent-mobile-toolkit, set up the MCP server for this workspace, and give me the WebSocket URL and token for my Android phone.
 ```
 
-Build the APK locally:
+OpenClaw:
 
-```bash
-./gradlew assembleDebug
+```text
+Install Agent Mobile Toolkit from https://github.com/ousir0/Agent-mobile-toolkit, install the OpenClaw mobile plugin, and configure the local bridge for this project.
 ```
 
-Run Android tests:
+Claude:
 
-```bash
-./gradlew test
+```text
+Set up Agent Mobile Toolkit from https://github.com/ousir0/Agent-mobile-toolkit and generate the MCP config I should add for local mobile automation.
 ```
 
-## Codex setup
+## 🤖 Codex setup
 
 Generate Codex MCP config:
 
@@ -162,7 +143,7 @@ Or register the MCP server directly:
 codex mcp add agent-mobile-toolkit -- /opt/homebrew/bin/node /path/to/src/mcp-server.js --bridge-url http://127.0.0.1:8787/bridge --bridge-secret change-me
 ```
 
-## Claude setup
+## 🧠 Claude setup
 
 Generate Claude MCP config:
 
@@ -170,7 +151,7 @@ Generate Claude MCP config:
 node scripts/bootstrap.mjs claude-config --bridge-url http://127.0.0.1:8787/bridge --bridge-secret change-me
 ```
 
-## OpenClaw setup
+## 🦀 OpenClaw setup
 
 Generate OpenClaw plugin config:
 
@@ -190,21 +171,19 @@ Export shared skills and workflows:
 node scripts/bootstrap.mjs install-agent-assets --target /path/to/output
 ```
 
-## Why this repo exists
+## 📁 Project structure
 
-This repo is designed as a project-level mobile toolkit, not just a one-off demo app.
+1. `app/` Android Portal source code
+2. `src/bridge-server.js` reverse bridge server
+3. `src/mcp-server.js` MCP server for Codex and Claude
+4. `integrations/openclaw/mobile-tools/` OpenClaw plugin
+5. `scripts/bootstrap.mjs` config and asset bootstrapper
+6. `skills/mobile-toolkit/` reusable mobile skill template
+7. `workflows/` reusable workflow templates
 
-The intention is:
+## ✅ Development and verification
 
-1. Build once
-2. Distribute to multiple agent runtimes
-3. Reuse the same phone bridge, skill assets, workflow assets, and integration scripts
-
-That makes it suitable for teams that want one mobile automation layer across Codex, OpenClaw, Claude, or future agent products.
-
-## Development and verification
-
-Node bridge tests:
+Node tests:
 
 ```bash
 npm test
@@ -222,6 +201,6 @@ Android debug build:
 ./gradlew assembleDebug
 ```
 
-## License
+## 📄 License
 
-This project is released under the MIT License.
+Released under the MIT License.
