@@ -67,7 +67,7 @@ These are the stable low-level tools you can build workflows on top of.
 
 Direct APK download:
 
-1. [Download debug APK](https://github.com/ousir0/Agent-mobile-toolkit/releases/download/v0.1.0/com.droidrun.portal-0.6.4-debug.apk)
+1. [Download debug APK](https://github.com/ousir0/Agent-mobile-toolkit/releases/download/v0.1.0/com.droidrun.portal-0.1.0-debug.apk)
 
 Release page:
 

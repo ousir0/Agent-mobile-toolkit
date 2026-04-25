@@ -68,7 +68,7 @@ Android Portal APK
 
 直接下载 APK：
 
-1. [下载 Debug APK](https://github.com/ousir0/Agent-mobile-toolkit/releases/download/v0.1.0/com.droidrun.portal-0.6.4-debug.apk)
+1. [下载 Debug APK](https://github.com/ousir0/Agent-mobile-toolkit/releases/download/v0.1.0/com.droidrun.portal-0.1.0-debug.apk)
 
 Release 页面：
 
