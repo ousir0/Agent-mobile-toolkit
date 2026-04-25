@@ -63,6 +63,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.text.NumberFormat
 import androidx.core.net.toUri
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
 
@@ -1383,21 +1384,22 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
         }
 
         btnConnect.setOnClickListener {
-            val url = inputUrl.text?.toString()?.trim() ?: ""
+            val rawUrl = inputUrl.text?.toString()?.trim() ?: ""
             val token = sanitizeToken(inputToken.text?.toString())
+            val normalizedUrl = normalizeReverseConnectionUrl(rawUrl)
 
             Log.d(
                 TAG,
-                "showCustomConnectionDialog: Connect clicked, URL='$url', token length=${token.length}"
+                "showCustomConnectionDialog: Connect clicked, rawUrl='$rawUrl', normalizedUrl='$normalizedUrl', token length=${token.length}"
             )
 
-            if (url.isBlank()) {
+            if (rawUrl.isBlank()) {
                 Log.w(TAG, "showCustomConnectionDialog: URL is blank")
                 Toast.makeText(this, R.string.main_enter_ws_url, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (!url.startsWith("ws://") && !url.startsWith("wss://")) {
+            if (normalizedUrl == null) {
                 Log.w(TAG, "showCustomConnectionDialog: Invalid URL scheme")
                 Toast.makeText(this, R.string.main_invalid_ws_url, Toast.LENGTH_SHORT)
                     .show()
@@ -1406,7 +1408,7 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
 
             Log.d(TAG, "showCustomConnectionDialog: Saving config...")
             // Save configuration
-            configManager.reverseConnectionUrl = url
+            configManager.reverseConnectionUrl = normalizedUrl
             configManager.reverseConnectionToken = token
             configManager.reverseConnectionEnabled = true
             configManager.forceLoginOnNextConnect = false
@@ -1426,6 +1428,60 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
         dialog.show()
         applyConnectionDialogWidth(dialog)
         Log.d(TAG, "showCustomConnectionDialog: Dialog shown")
+    }
+
+    private fun normalizeReverseConnectionUrl(input: String): String? {
+        val trimmed = input.trim()
+        if (trimmed.isBlank()) {
+            return null
+        }
+
+        val withScheme = when {
+            trimmed.startsWith("ws://", ignoreCase = true) -> trimmed
+            trimmed.startsWith("wss://", ignoreCase = true) -> trimmed
+            trimmed.startsWith("http://", ignoreCase = true) ->
+                "ws://${trimmed.removePrefix("http://").removePrefix("HTTP://")}"
+            trimmed.startsWith("https://", ignoreCase = true) ->
+                "wss://${trimmed.removePrefix("https://").removePrefix("HTTPS://")}"
+            "://" !in trimmed -> "ws://$trimmed"
+            else -> return null
+        }
+
+        val normalizedScheme = if (withScheme.startsWith("WS://")) {
+            "ws://${withScheme.removePrefix("WS://")}"
+        } else if (withScheme.startsWith("WSS://")) {
+            "wss://${withScheme.removePrefix("WSS://")}"
+        } else {
+            withScheme
+        }
+
+        val uri = try {
+            Uri.parse(normalizedScheme)
+        } catch (_: Exception) {
+            return null
+        }
+
+        val scheme = uri.scheme?.lowercase(Locale.US) ?: return null
+        if (scheme != "ws" && scheme != "wss") {
+            return null
+        }
+        if (uri.host.isNullOrBlank()) {
+            return null
+        }
+
+        val normalizedPath = when (val path = uri.path.orEmpty().trim()) {
+            "", "/" -> "/v1/providers/personal/join"
+            "/v1/providers/personal/join" -> path
+            else -> path
+        }
+
+        return uri.buildUpon()
+            .scheme(scheme)
+            .path(normalizedPath)
+            .clearQuery()
+            .fragment(null)
+            .build()
+            .toString()
     }
 
     private fun setupConnectionStateObserver() {

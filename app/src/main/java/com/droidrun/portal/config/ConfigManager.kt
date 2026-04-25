@@ -89,9 +89,6 @@ class ConfigManager private constructor(private val context: Context) {
         context.getSharedPreferences(DEVICE_PREFS_NAME, Context.MODE_PRIVATE)
 
     init {
-        if (sharedPrefs.contains(KEY_REVERSE_CONNECTION_ENABLED)) {
-            sharedPrefs.edit { putBoolean(KEY_REVERSE_CONNECTION_ENABLED, false) }
-        }
         migrateTaskPromptModelPrefsIfNeeded()
     }
 
@@ -278,7 +275,11 @@ class ConfigManager private constructor(private val context: Context) {
             return locale.country.ifBlank { "US" }
         }
 
-    var reverseConnectionEnabled: Boolean = false
+    var reverseConnectionEnabled: Boolean
+        get() = sharedPrefs.getBoolean(KEY_REVERSE_CONNECTION_ENABLED, false)
+        set(value) {
+            sharedPrefs.edit { putBoolean(KEY_REVERSE_CONNECTION_ENABLED, value) }
+        }
 
     var forceLoginOnNextConnect: Boolean
         get() = sharedPrefs.getBoolean("force_login_on_next_connect", false)

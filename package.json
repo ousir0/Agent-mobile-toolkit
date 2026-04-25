@@ -1,9 +1,9 @@
 {
-  "name": "oclaw-mobile-toolkit",
+  "name": "agent-mobile-toolkit",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Standalone mobile bridge toolkit for OClaw, Codex, OpenClaw, and Claude.",
+  "description": "Standalone mobile bridge toolkit for Codex, OpenClaw, Claude, and MCP-compatible agents.",
   "engines": {
     "node": ">=20"
   },
