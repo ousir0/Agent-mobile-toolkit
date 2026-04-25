@@ -1,0 +1,23 @@
+{
+  "id": "mobile-tools",
+  "name": "Mobile Tools",
+  "description": "Expose OClaw mobile runtime tools to OpenClaw agents.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "callbackUrl": {
+        "type": "string",
+        "minLength": 1
+      },
+      "secret": {
+        "type": "string",
+        "minLength": 1
+      },
+      "requestTimeoutMs": {
+        "type": "number",
+        "minimum": 1000
+      }
+    }
+  }
+}

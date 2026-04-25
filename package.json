@@ -1,0 +1,25 @@
+{
+  "name": "oclaw-mobile-toolkit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone mobile bridge toolkit for OClaw, Codex, OpenClaw, and Claude.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "bridge": "node src/bridge-server.js",
+    "mcp": "node src/mcp-server.js",
+    "bootstrap": "node scripts/bootstrap.mjs",
+    "test:node": "vitest run tests/*.test.js",
+    "test": "npm run test:node"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "ws": "^8.18.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@oclaw/openclaw-mobile-tools",
+  "version": "0.0.0",
+  "description": "Expose OClaw mobile runtime tools as native OpenClaw tools.",
+  "type": "module",
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}
