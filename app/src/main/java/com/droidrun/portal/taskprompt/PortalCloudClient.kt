@@ -133,8 +133,6 @@ class PortalCloudClient(
             "moonshotai/kimi-k2.5",
             "anthropic/claude-sonnet-4.6",
             "anthropic/claude-opus-4.6",
-            "mobilerun/mobile-agent-fast",
-            "mobilerun/mobile-agent-thinking",
         )
 
         fun fallbackModelOptions(): List<PortalModelOption> = buildModelOptions(FALLBACK_MODEL_IDS)
@@ -818,7 +816,7 @@ class PortalCloudClient(
                 callback(
                     PortalModelsLoadResult(
                         models = fallbackModelOptions(),
-                        warningMessage = "Couldn't load models from Mobilerun. Using the documented fallback model list.",
+                        warningMessage = "Couldn't load models from OClaw Cloud. Using the documented fallback model list.",
                         loadedFromServer = false,
                     ),
                 )
@@ -831,7 +829,7 @@ class PortalCloudClient(
                         callback(
                             PortalModelsLoadResult(
                                 models = fallbackModelOptions(),
-                                warningMessage = "Couldn't load models from Mobilerun. Using the documented fallback model list.",
+                                warningMessage = "Couldn't load models from OClaw Cloud. Using the documented fallback model list.",
                                 loadedFromServer = false,
                             ),
                         )
@@ -843,7 +841,7 @@ class PortalCloudClient(
                         callback(
                             PortalModelsLoadResult(
                                 models = fallbackModelOptions(),
-                                warningMessage = "Couldn't load models from Mobilerun. Using the documented fallback model list.",
+                                warningMessage = "Couldn't load models from OClaw Cloud. Using the documented fallback model list.",
                                 loadedFromServer = false,
                             ),
                         )
@@ -871,7 +869,7 @@ class PortalCloudClient(
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 callback(
                     PortalBalanceResult.Error(
-                        "Could not reach Mobilerun billing right now. Check the connection and try again.",
+                        "Could not reach OClaw Cloud billing right now. Check the connection and try again.",
                         retryable = true,
                     ),
                 )
@@ -884,7 +882,7 @@ class PortalCloudClient(
                         val parsedDetail = parseErrorDetail(body)
                         val result = when (response.code) {
                             401, 403 -> PortalBalanceResult.Error(
-                                "Mobilerun rejected the saved API key. Sign in again or update the key.",
+                                "OClaw Cloud rejected the saved API key. Sign in again or update the key.",
                             )
 
                             404 -> PortalBalanceResult.Unavailable(
@@ -892,12 +890,12 @@ class PortalCloudClient(
                             )
 
                             in 500..599 -> PortalBalanceResult.Error(
-                                "Mobilerun could not load credits right now. Try again in a moment.",
+                                "OClaw Cloud could not load credits right now. Try again in a moment.",
                                 retryable = true,
                             )
 
                             else -> PortalBalanceResult.Error(
-                                parsedDetail ?: "Mobilerun returned an unexpected response.",
+                                parsedDetail ?: "OClaw Cloud returned an unexpected response.",
                             )
                         }
                         callback(result)
@@ -908,7 +906,7 @@ class PortalCloudClient(
                     if (info == null) {
                         callback(
                             PortalBalanceResult.Error(
-                                "Mobilerun returned an unexpected response.",
+                                "OClaw Cloud returned an unexpected response.",
                             ),
                         )
                         return
@@ -939,7 +937,7 @@ class PortalCloudClient(
                     deviceId = deviceId,
                     draft = draft,
                     launchStartedAtMs = launchStartedAtMs,
-                    fallbackMessage = "Could not reach Mobilerun. Check the connection and try again.",
+                    fallbackMessage = "Could not reach OClaw Cloud. Check the connection and try again.",
                     completionGate = completionGate,
                     callback = callback,
                 )
@@ -956,13 +954,13 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This connected device was not found in Mobilerun. Reconnect it and try again."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This connected device was not found in OClaw Cloud. Reconnect it and try again."
                             400, 412, 422 -> parsedDetail
-                                ?: "Mobilerun rejected the task request. Check the selected model and settings."
+                                ?: "OClaw Cloud rejected the task request. Check the selected model and settings."
 
-                            in 500..599 -> "Mobilerun could not start the task right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            in 500..599 -> "OClaw Cloud could not start the task right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         if (response.code !in HARD_LAUNCH_FAILURE_CODES &&
                             !parsedTaskId.isNullOrBlank()
@@ -1014,7 +1012,7 @@ class PortalCloudClient(
                         deviceId = deviceId,
                         draft = draft,
                         launchStartedAtMs = launchStartedAtMs,
-                        fallbackMessage = "Mobilerun returned an unexpected response.",
+                        fallbackMessage = "OClaw Cloud returned an unexpected response.",
                         completionGate = completionGate,
                         callback = callback,
                     )
@@ -1169,7 +1167,7 @@ class PortalCloudClient(
         val request = buildTaskStatusRequest(restBaseUrl, authToken, taskId)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskStatusResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskStatusResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1178,10 +1176,10 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This task was not found in Mobilerun anymore."
-                            in 500..599 -> "Mobilerun could not load the task status right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This task was not found in OClaw Cloud anymore."
+                            in 500..599 -> "OClaw Cloud could not load the task status right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskStatusResult.Error(message))
                         return
@@ -1189,7 +1187,7 @@ class PortalCloudClient(
 
                     val status = parseTaskStatus(body)
                     if (status == null) {
-                        callback(PortalTaskStatusResult.Error("Mobilerun returned an unexpected response."))
+                        callback(PortalTaskStatusResult.Error("OClaw Cloud returned an unexpected response."))
                         return
                     }
 
@@ -1208,7 +1206,7 @@ class PortalCloudClient(
         val request = buildTaskDetailsRequest(restBaseUrl, authToken, taskId)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskDetailsResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskDetailsResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1217,10 +1215,10 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This task was not found in Mobilerun anymore."
-                            in 500..599 -> "Mobilerun could not load the task details right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This task was not found in OClaw Cloud anymore."
+                            in 500..599 -> "OClaw Cloud could not load the task details right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskDetailsResult.Error(message))
                         return
@@ -1228,7 +1226,7 @@ class PortalCloudClient(
 
                     val task = parseTaskDetails(body, taskId)
                     if (task == null) {
-                        callback(PortalTaskDetailsResult.Error("Mobilerun returned an unexpected response."))
+                        callback(PortalTaskDetailsResult.Error("OClaw Cloud returned an unexpected response."))
                         return
                     }
 
@@ -1249,7 +1247,7 @@ class PortalCloudClient(
         val request = buildListTasksRequest(restBaseUrl, authToken, query, page, pageSize)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskHistoryResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskHistoryResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1258,9 +1256,9 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            in 500..599 -> "Mobilerun could not load the task history right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            in 500..599 -> "OClaw Cloud could not load the task history right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskHistoryResult.Error(message))
                         return
@@ -1268,7 +1266,7 @@ class PortalCloudClient(
 
                     val pageResult = parseTaskHistoryPage(body)
                     if (pageResult == null) {
-                        callback(PortalTaskHistoryResult.Error("Mobilerun returned an unexpected response."))
+                        callback(PortalTaskHistoryResult.Error("OClaw Cloud returned an unexpected response."))
                         return
                     }
 
@@ -1287,7 +1285,7 @@ class PortalCloudClient(
         val request = buildTaskScreenshotsRequest(restBaseUrl, authToken, taskId)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskScreenshotResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskScreenshotResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1296,10 +1294,10 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This task screenshot list was not found in Mobilerun anymore."
-                            in 500..599 -> "Mobilerun could not load screenshots right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This task screenshot list was not found in OClaw Cloud anymore."
+                            in 500..599 -> "OClaw Cloud could not load screenshots right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskScreenshotResult.Error(message))
                         return
@@ -1307,7 +1305,7 @@ class PortalCloudClient(
 
                     val screenshots = parseTaskScreenshotSet(body)
                     if (screenshots == null) {
-                        callback(PortalTaskScreenshotResult.Error("Mobilerun returned an unexpected response."))
+                        callback(PortalTaskScreenshotResult.Error("OClaw Cloud returned an unexpected response."))
                         return
                     }
 
@@ -1326,7 +1324,7 @@ class PortalCloudClient(
         val request = buildTaskTrajectoryRequest(restBaseUrl, authToken, taskId)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskTrajectoryResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskTrajectoryResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1335,10 +1333,10 @@ class PortalCloudClient(
                     if (!response.isSuccessful) {
                         val parsedDetail = parseErrorDetail(body)
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This task trajectory was not found in Mobilerun anymore."
-                            in 500..599 -> "Mobilerun could not load trajectory right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This task trajectory was not found in OClaw Cloud anymore."
+                            in 500..599 -> "OClaw Cloud could not load trajectory right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskTrajectoryResult.Error(message))
                         return
@@ -1346,7 +1344,7 @@ class PortalCloudClient(
 
                     val trajectory = parseTaskTrajectory(body)
                     if (trajectory == null) {
-                        callback(PortalTaskTrajectoryResult.Error("Mobilerun returned an unexpected response."))
+                        callback(PortalTaskTrajectoryResult.Error("OClaw Cloud returned an unexpected response."))
                         return
                     }
 
@@ -1365,7 +1363,7 @@ class PortalCloudClient(
         val request = buildCancelTaskRequest(restBaseUrl, authToken, taskId)
         okHttpClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(PortalTaskCancelResult.Error("Could not reach Mobilerun. Check the connection and try again."))
+                callback(PortalTaskCancelResult.Error("Could not reach OClaw Cloud. Check the connection and try again."))
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
@@ -1381,10 +1379,10 @@ class PortalCloudClient(
                         }
 
                         val message = when (response.code) {
-                            401, 403 -> "Mobilerun rejected the saved API key. Sign in again or update the key."
-                            404 -> "This task was not found in Mobilerun anymore."
-                            in 500..599 -> "Mobilerun could not cancel the task right now. Try again in a moment."
-                            else -> parsedDetail ?: "Mobilerun returned an unexpected response."
+                            401, 403 -> "OClaw Cloud rejected the saved API key. Sign in again or update the key."
+                            404 -> "This task was not found in OClaw Cloud anymore."
+                            in 500..599 -> "OClaw Cloud could not cancel the task right now. Try again in a moment."
+                            else -> parsedDetail ?: "OClaw Cloud returned an unexpected response."
                         }
                         callback(PortalTaskCancelResult.Error(message))
                         return

@@ -4,7 +4,7 @@
     <string name="keyboard_name">OClaw Keyboard</string>
     <string name="keyboard_on">OClaw Keyboard</string>
     <string name="brand_badge_title">OClaw Tools Bridge</string>
-    <string name="brand_badge_subtitle">Branded Droidrun Portal build prepared for OpenClaw integration.</string>
+    <string name="brand_badge_subtitle">OClaw mobile toolkit build for device automation and agent connectivity.</string>
 
     <!-- Activity Main -->
     <string name="settings_content_description">Settings</string>
@@ -27,7 +27,7 @@
     <string name="default_port">8080</string>
     <string name="connection_details_header">Connection Details</string>
     <string name="task_prompt_card_title">Run Task</string>
-    <string name="task_prompt_card_subtitle">Start a Mobilerun task on this device and review recent runs.</string>
+    <string name="task_prompt_card_subtitle">Start a task on this device and review recent runs.</string>
     <string name="task_prompt_latest_task_label">Latest task</string>
     <string name="task_prompt_hint">Describe what the agent should do</string>
     <string name="task_prompt_model_label">Model</string>
@@ -57,10 +57,10 @@
     <string name="task_prompt_invalid_timeout">Enter a value between 1 and 1000</string>
     <string name="task_prompt_invalid_temperature">Enter a value between 0 and 2</string>
     <string name="task_prompt_loading_models">Loading models…</string>
-    <string name="task_prompt_missing_api_key">Task launch requires a Mobilerun API key.</string>
+    <string name="task_prompt_missing_api_key">Task launch requires an API key.</string>
     <string name="task_prompt_unsupported_custom_url">Task launch only supports WebSocket URLs ending in /v1/providers/personal/join.</string>
     <string name="task_prompt_started">Task started on this device.</string>
-    <string name="task_prompt_return_to_portal">Return to Portal when task ends</string>
+    <string name="task_prompt_return_to_portal">Return to OClaw when task ends</string>
     <string name="task_prompt_copy_success">Task ID copied</string>
     <string name="task_prompt_cancel_button">Cancel task</string>
     <string name="task_prompt_status_created">Created</string>
@@ -222,13 +222,13 @@
     <string name="custom_connection">Custom Connection</string>
     <string name="error_unauthorized_actionable">Your API key was rejected. Sign in again or enter a new key.</string>
     <string name="sign_out_confirmation_title">Sign out on this device?</string>
-    <string name="sign_out_confirmation_message">This removes the saved Mobilerun sign-in from this portal only.</string>
+    <string name="sign_out_confirmation_message">This removes the saved OClaw Cloud sign-in from this device only.</string>
 
     <!-- Connection States -->
     <string name="connection_failed_title">Connection Failed</string>
     <string name="error_unauthorized">Unauthorized \u2014 check your API key</string>
     <string name="error_limit_exceeded">Device limit exceeded</string>
-    <string name="error_bad_request_actionable">Saved Mobilerun credentials may belong to a different account. Sign in again or update the connection.</string>
+    <string name="error_bad_request_actionable">Saved OClaw Cloud credentials may belong to a different account. Sign in again or update the connection.</string>
     <string name="error_bad_request">Bad request \u2014 check token and headers</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="connecting_subtitle">Establishing connection\u2026</string>
@@ -266,8 +266,8 @@
     <string name="credits_no_reset_scheduled">No reset scheduled</string>
     <string name="credits_loading">Loading credits…</string>
     <string name="credits_refreshing">Refreshing credits…</string>
-    <string name="credits_sign_in_required">Sign in with Mobilerun or add a valid API key to view credits.</string>
-    <string name="credits_unsupported_host">Credits balance is only available for official Mobilerun cloud connections.</string>
+    <string name="credits_sign_in_required">Sign in with OClaw Cloud or add a valid API key to view credits.</string>
+    <string name="credits_unsupported_host">Credits balance is only available for official OClaw Cloud connections.</string>
     <string name="settings_title">Settings</string>
     <string name="language_header">Language</string>
     <string name="language_title">App Language</string>
@@ -307,6 +307,8 @@
     <string name="main_enter_ws_url">Please enter a WebSocket URL</string>
     <string name="main_invalid_ws_url">URL must start with ws:// or wss://</string>
     <string name="main_connecting_custom_server">Connecting to custom server...</string>
+    <string name="main_cloud_sign_in_unavailable">This build does not include a default OClaw Cloud sign-in address yet. Use Custom Connection.</string>
+    <string name="main_cloud_api_key_unavailable">This build does not include a default OClaw Cloud server address yet. Use Custom Connection.</string>
     <string name="main_token_copied">Token copied</string>
     <string name="main_ip_unavailable">Unavailable (Check Wi-Fi)</string>
     <string name="main_value_range_error">Value must be between %1$d and %2$d</string>
@@ -375,7 +377,7 @@
     <string name="trigger_editor_add_title">Add trigger rule</string>
     <string name="trigger_editor_edit_title">Edit trigger rule</string>
     <string name="trigger_rule_enabled">Rule enabled</string>
-    <string name="trigger_return_to_portal">Return to Portal when task ends</string>
+    <string name="trigger_return_to_portal">Return to OClaw when task ends</string>
     <string name="trigger_rule_name">Rule name</string>
     <string name="trigger_source">Trigger source</string>
     <string name="trigger_prompt_template">Prompt template</string>
@@ -488,7 +490,7 @@
     <string name="weekday_short_friday">Fri</string>
     <string name="weekday_short_saturday">Sat</string>
     <string name="trigger_run_limit_usage">Used %1$d of %2$d successful launches.</string>
-    <string name="trigger_model_warning_fallback">Using fallback models because the current Mobilerun connection is not configured.</string>
+    <string name="trigger_model_warning_fallback">Using fallback models because the current cloud connection is not configured.</string>
     <string name="trigger_exact_alarm_notice_unavailable">Exact alarms are unavailable, so minute-level time rules can drift until access is granted.</string>
     <string name="trigger_delay_picker_title">Choose delay</string>
     <string name="trigger_date_picker_title">Choose date</string>
@@ -521,7 +523,8 @@
     <string name="trigger_permission_sms_receive">Receive SMS</string>
     <string name="trigger_runtime_missing_permissions">Missing permissions: %1$s</string>
     <string name="trigger_runtime_matched">Matched %1$s</string>
-    <string name="trigger_runtime_launched_task">Launched portal task %1$s</string>
-    <string name="trigger_runtime_skipped_busy">Skipped because another portal task is active</string>
+    <string name="trigger_runtime_launched_task">Launched OClaw task %1$s</string>
+    <string name="trigger_runtime_skipped_busy">Skipped because another OClaw task is active</string>
+    <string name="settings_reverse_url_required">Enter a WebSocket server URL before enabling the cloud connection.</string>
     <string name="trigger_runtime_rule_disabled_limit">Rule disabled because the run limit was reached</string>
 </resources>

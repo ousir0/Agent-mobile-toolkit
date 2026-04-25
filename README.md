@@ -8,7 +8,7 @@ Turn an Android phone into a reusable mobile tool endpoint for Codex, OpenClaw, 
 
 Agent Mobile Toolkit packages the full mobile automation path into one repo:
 
-1. 📱 Android Portal app running on the phone
+1. 📱 OClaw Android app running on the phone
 2. 🔌 Reverse WebSocket bridge running on your computer
 3. 🧠 MCP server for Codex and Claude
 4. 🛠️ OpenClaw plugin, skill assets, and workflow assets
@@ -19,7 +19,7 @@ This means you can connect one phone and reuse it across multiple agent runtimes
 
 ```mermaid
 flowchart LR
-  phone["Android phone<br/>Portal APK"] --> ws["Reverse WebSocket bridge<br/>local computer"]
+  phone["Android phone<br/>OClaw APK"] --> ws["Reverse WebSocket bridge<br/>local computer"]
   ws --> mcp["MCP server"]
   ws --> plugin["OpenClaw plugin callback"]
   mcp --> codex["Codex"]
@@ -62,7 +62,7 @@ Typical real-world examples:
 ## 🧭 How it works
 
 ```text
-Android Portal APK
+OClaw Android APK
   -> Reverse WebSocket bridge
   -> MCP / OpenClaw integration
   -> Codex / OpenClaw / Claude
@@ -210,7 +210,7 @@ node scripts/bootstrap.mjs install-agent-assets --target /path/to/output
 
 ## 📁 Project structure
 
-1. `app/` Android Portal source code
+1. `app/` OClaw Android source code
 2. `src/bridge-server.js` reverse bridge server
 3. `src/mcp-server.js` MCP server for Codex and Claude
 4. `integrations/openclaw/mobile-tools/` OpenClaw plugin

@@ -212,8 +212,6 @@ class SettingsActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener
         binding.inputReverseToken.addWhitespaceStrippingWatcher()
 
         binding.switchReverseEnabled.setOnCheckedChangeListener { _, isChecked ->
-            configManager.reverseConnectionEnabled = isChecked
-
             val intent = Intent(
                 this,
                 ReverseConnectionService::class.java,
@@ -222,12 +220,28 @@ class SettingsActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener
                 val url = binding.inputReverseUrl.text.toString().ifBlank {
                     configManager.reverseConnectionUrlOrDefault
                 }
+                if (url.isBlank()) {
+                    binding.switchReverseEnabled.isChecked = false
+                    binding.inputReverseUrl.error =
+                        getString(com.droidrun.portal.R.string.settings_reverse_url_required)
+                    android.widget.Toast.makeText(
+                        this,
+                        getString(com.droidrun.portal.R.string.settings_reverse_url_required),
+                        android.widget.Toast.LENGTH_SHORT,
+                    ).show()
+                    configManager.reverseConnectionEnabled = false
+                    refreshCreditsBalance(force = true)
+                    return@setOnCheckedChangeListener
+                }
                 val token = sanitizeToken(binding.inputReverseToken.text?.toString())
+                binding.inputReverseUrl.error = null
                 binding.inputReverseToken.error = null
+                configManager.reverseConnectionEnabled = true
                 configManager.reverseConnectionUrl = url
                 configManager.reverseConnectionToken = token
                 startForegroundService(intent)
             } else {
+                configManager.reverseConnectionEnabled = false
                 intent.action = ReverseConnectionService.ACTION_DISCONNECT
                 startService(intent)
             }
@@ -385,6 +399,15 @@ class SettingsActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener
 
     private fun restartServiceIfEnabled() {
         if (configManager.reverseConnectionEnabled) {
+            val url = binding.inputReverseUrl.text?.toString()?.trim().orEmpty()
+                .ifBlank { configManager.reverseConnectionUrlOrDefault }
+            if (url.isBlank()) {
+                binding.switchReverseEnabled.isChecked = false
+                binding.inputReverseUrl.error =
+                    getString(com.droidrun.portal.R.string.settings_reverse_url_required)
+                configManager.reverseConnectionEnabled = false
+                return
+            }
             val intent = Intent(
                 this,
                 ReverseConnectionService::class.java,

@@ -13,8 +13,8 @@ import com.droidrun.portal.taskprompt.PortalTaskTracking
 import com.droidrun.portal.taskprompt.TaskPromptSettingsConstraints
 
 /**
- * Centralized configuration manager for Droidrun Portal
- * Handles SharedPreferences operations and provides a clean API for configuration management
+ * Centralized configuration manager for the OClaw Android app.
+ * Handles SharedPreferences operations and provides a clean API for configuration management.
  */
 class ConfigManager private constructor(private val context: Context) {
 
@@ -68,8 +68,7 @@ class ConfigManager private constructor(private val context: Context) {
         private const val DEFAULT_OFFSET = 0
         private const val DEFAULT_SOCKET_PORT = 8080
         private const val DEFAULT_WEBSOCKET_PORT = 8081
-        private const val DEFAULT_REVERSE_CONNECTION_URL =
-            "wss://api.mobilerun.ai/v1/providers/personal/join"
+        private const val DEFAULT_REVERSE_CONNECTION_URL = ""
 
         // TODO replace
         @Volatile

@@ -1,24 +1,17 @@
 # Reverse Connection (Cloud Mode)
 
-Droidrun Portal can initiate an outbound WebSocket connection to a host (used by Mobilerun Cloud). This keeps the device reachable even when it is behind NAT or on mobile networks.
+OClaw can initiate an outbound WebSocket connection to a host. This keeps the device reachable even when it is behind NAT or on mobile networks.
 
 ## Enable in the app
 
-1. Open **Settings** in the Portal app.
+1. Open **Settings** in the OClaw app.
 2. Under **Reverse Connection**, enter the host URL (ws/wss).
 3. Optional: enter a token (sent as a Bearer token).
 4. Toggle **Connect to Host**.
 
-## Alternative method (Simplest)
+## Alternative method
 
-Press Connect to Mobilerun button in portal main page.
----
-
-Mobilerun default host URL:
-
-```
-wss://api.mobilerun.ai/v1/providers/personal/join
-```
+Use **Custom Connection** on the main screen and enter your full WebSocket URL.
 
 The `{deviceId}` placeholder is replaced automatically if present.
 
@@ -71,7 +64,7 @@ These `triggers/*` methods are headless-safe and remain available even if the Ac
 
 ## Device Events
 
-While reverse connection is active, Portal forwards live device events automatically as unsolicited
+While reverse connection is active, OClaw forwards live device events automatically as unsolicited
 notifications:
 
 ```json
@@ -95,7 +88,7 @@ Notes:
 - Local listeners can opt into this same `events/device` envelope via `?eventFormat=rpc`.
 - `?eventFormat=legacy` is still accepted as an explicit request for the default local format.
 - Delivery is live-only and best-effort. Events are not queued or replayed after reconnect.
-- Event filtering still follows the existing Portal event toggles.
+- Event filtering still follows the existing OClaw event toggles.
 
 ## App control
 
@@ -143,7 +136,7 @@ Streaming commands are only supported over reverse connection.
 ### Device → server
 
 - `events/device`
-  - Params: exact Portal event object `{ type, timestamp, payload? }`
+  - Params: exact OClaw event object `{ type, timestamp, payload? }`
 - `stream/ready` (sent when capture is ready)
   - Params: `sessionId`
 - `webrtc/offer` (device-generated offer)
@@ -177,7 +170,7 @@ You can manually verify reverse event forwarding with the workspace test server
 `test_reverse_server.py`:
 
 1. Start the server on your machine.
-2. Point Portal reverse connection to that host and connect the device.
+2. Point the OClaw reverse connection to that host and connect the device.
 3. Trigger a notification, unlock, app switch, or network change on the device.
 4. Verify the server logs show unsolicited messages with `"method":"events/device"` and the
    expected `params.type` / `params.payload`.

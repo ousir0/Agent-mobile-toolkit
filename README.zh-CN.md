@@ -8,7 +8,7 @@
 
 Agent Mobile Toolkit 把整条移动端自动化链路打包进了一个仓库：
 
-1. 📱 运行在手机上的 Android Portal APK
+1. 📱 运行在手机上的 OClaw Android APK
 2. 🔌 运行在电脑上的反向 WebSocket bridge
 3. 🧠 给 Codex / Claude 用的 MCP Server
 4. 🛠️ 给 OpenClaw 用的插件、技能资产和 workflow 资产
@@ -19,7 +19,7 @@ Agent Mobile Toolkit 把整条移动端自动化链路打包进了一个仓库�
 
 ```mermaid
 flowchart LR
-  phone["Android 手机<br/>Portal APK"] --> ws["Reverse WebSocket bridge<br/>本地电脑"]
+  phone["Android 手机<br/>OClaw APK"] --> ws["Reverse WebSocket bridge<br/>本地电脑"]
   ws --> mcp["MCP Server"]
   ws --> plugin["OpenClaw 插件回调"]
   mcp --> codex["Codex"]
@@ -62,7 +62,7 @@ flowchart LR
 ## 🧭 工作方式
 
 ```text
-Android Portal APK
+OClaw Android APK
   -> Reverse WebSocket bridge
   -> MCP / OpenClaw integration
   -> Codex / OpenClaw / Claude
@@ -211,7 +211,7 @@ node scripts/bootstrap.mjs install-agent-assets --target /path/to/output
 
 ## 📁 项目结构
 
-1. `app/` Android Portal 源码
+1. `app/` OClaw Android 源码
 2. `src/bridge-server.js` 反向连接 bridge
 3. `src/mcp-server.js` 给 Codex / Claude 用的 MCP Server
 4. `integrations/openclaw/mobile-tools/` OpenClaw 插件

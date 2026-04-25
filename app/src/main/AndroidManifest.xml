@@ -188,7 +188,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="droidrun"
+                    android:scheme="oclaw"
                     android:host="auth-callback" />
             </intent-filter>
         </activity>

@@ -1261,6 +1261,15 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
             configManager.forceLoginOnNextConnect = true
             refreshCreditsBalance(force = true)
         }
+        if (configManager.defaultReverseConnectionUrl.isBlank()) {
+            Toast.makeText(
+                this,
+                R.string.main_cloud_sign_in_unavailable,
+                Toast.LENGTH_LONG,
+            ).show()
+            showCustomConnectionDialog()
+            return
+        }
         openCloudLogin(configManager)
     }
 
@@ -1325,6 +1334,17 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
             if (apiKey.isBlank()) {
                 Log.w(TAG, "showApiKeyDialog: API key is blank")
                 Toast.makeText(this, R.string.main_enter_api_key, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (configManager.defaultReverseConnectionUrl.isBlank()) {
+                Toast.makeText(
+                    this,
+                    R.string.main_cloud_api_key_unavailable,
+                    Toast.LENGTH_LONG,
+                ).show()
+                dialog.dismiss()
+                showCustomConnectionDialog()
                 return@setOnClickListener
             }
 
@@ -2172,10 +2192,24 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
     }
 
     private fun openCloudLogin(configManager: ConfigManager) {
+        if (configManager.defaultReverseConnectionUrl.isBlank()) {
+            Toast.makeText(this, R.string.main_cloud_sign_in_unavailable, Toast.LENGTH_LONG).show()
+            return
+        }
         val deviceId = configManager.deviceID
         val forceLogin = if (configManager.forceLoginOnNextConnect) "&force_login=true" else ""
         configManager.forceLoginOnNextConnect = false
-        val url = "https://cloud.mobilerun.ai/auth/device?deviceId=$deviceId$forceLogin"
+        val cloudBaseUrl =
+            PortalCloudClient.deriveCloudBaseUrl(configManager.defaultReverseConnectionUrl)
+                ?: run {
+                    Toast.makeText(
+                        this,
+                        R.string.main_cloud_sign_in_unavailable,
+                        Toast.LENGTH_LONG,
+                    ).show()
+                    return
+                }
+        val url = "$cloudBaseUrl/auth/device?deviceId=$deviceId$forceLogin"
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
@@ -2187,7 +2221,7 @@ class MainActivity : AppCompatActivity(), ConfigManager.ConfigChangeListener {
     private fun handleDeepLink(intent: Intent?) {
         try {
             val data: Uri? = intent?.data
-            if (data != null && data.scheme == "droidrun" && data.host == "auth-callback") {
+            if (data != null && data.scheme == "oclaw" && data.host == "auth-callback") {
                 val token = data.getQueryParameter("token")
                 val url = data.getQueryParameter("url")
 

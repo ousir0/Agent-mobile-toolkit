@@ -1,6 +1,6 @@
 # WebSocket Events
 
-Droidrun Portal includes a WebSocket server that broadcasts real-time events from the device, including notifications, app transitions, battery and power changes, user-present events, network changes, and SMS reception.
+OClaw includes a WebSocket server that broadcasts real-time events from the device, including notifications, app transitions, battery and power changes, user-present events, network changes, and SMS reception.
 
 For the complete trigger and event contract, including every emitted `EventType`, every rule `TriggerSource`, and the payload keys for each device event, see [Triggers and Events](triggers.md).
 Local WebSocket defaults to raw unsolicited device event frames. Reverse connection uses
@@ -11,7 +11,7 @@ with `?eventFormat=rpc`. See [Reverse Connection](reverse-connection.md).
 
 ### 1. Enable WebSocket Server
 
-Open the Droidrun Portal app and enable the WebSocket server in settings. The default port is `8081`.
+Open the OClaw app and enable the WebSocket server in settings. The default port is `8081`.
 
 ### 2. Get the auth token
 
@@ -55,7 +55,7 @@ This WebSocket also supports JSON-RPC-style commands; see [Local API](local-api.
 
 ## Event Types
 
-Portal currently emits these event families over WebSocket:
+OClaw currently emits these event families over WebSocket:
 
 - Notification events: `NOTIFICATION`, `NOTIFICATION_POSTED`, `NOTIFICATION_REMOVED`
 - App events: `APP_ENTERED`, `APP_EXITED`
@@ -197,5 +197,5 @@ asyncio.run(listen())
 | Issue | Solution |
 |-------|----------|
 | Connection refused | Ensure the app is running and WebSocket server is enabled in settings |
-| No events received | Check that notification listener permission is granted for Droidrun Portal |
+| No events received | Check that notification listener permission is granted for OClaw |
 | ADB forward fails | Make sure a device is connected via `adb devices` |

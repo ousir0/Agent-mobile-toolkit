@@ -19,7 +19,7 @@ object TaskPromptNotificationManager {
     const val EXTRA_TASK_ID = "extra_task_id"
 
     private const val CHANNEL_ID = "task_prompt_channel"
-    private const val CHANNEL_NAME = "Portal Tasks"
+    private const val CHANNEL_NAME = "OClaw Tasks"
     private const val NOTIFICATION_ID = 3101
     private const val TAG = "TaskPromptNotif"
 

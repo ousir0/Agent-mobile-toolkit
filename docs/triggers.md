@@ -1,6 +1,6 @@
 # Triggers and Events
 
-Droidrun Portal exposes trigger management over the local `ContentProvider`, the local WebSocket JSON-RPC API, and the reverse WebSocket connection used by cloud control. The rule and run payloads use the same `TriggerJson` schema that Portal persists internally; there is no separate external trigger schema.
+OClaw exposes trigger management over the local `ContentProvider`, the local WebSocket JSON-RPC API, and the reverse WebSocket connection used by cloud control. The rule and run payloads use the same `TriggerJson` schema that OClaw persists internally; there is no separate external trigger schema.
 
 Trigger endpoints are headless-safe: `triggers/*` methods remain available even when the Accessibility Service is not connected.
 

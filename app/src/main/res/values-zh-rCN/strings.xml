@@ -4,7 +4,7 @@
     <string name="keyboard_name">OClaw 键盘</string>
     <string name="keyboard_on">OClaw 键盘</string>
     <string name="brand_badge_title">OClaw 工具桥</string>
-    <string name="brand_badge_subtitle">为 OpenClaw 集成准备的 Droidrun Portal 品牌版本。</string>
+    <string name="brand_badge_subtitle">用于设备自动化与智能体连接的 OClaw 移动工具包。</string>
     <string name="settings_content_description">设置</string>
     <string name="accessibility_service_not_enabled">无障碍服务未启用</string>
     <string name="enable_now">立即启用</string>
@@ -25,7 +25,7 @@
     <string name="default_port">8080</string>
     <string name="connection_details_header">连接详情</string>
     <string name="task_prompt_card_title">运行任务</string>
-    <string name="task_prompt_card_subtitle">在本机启动 Mobilerun 任务，并查看最近运行记录。</string>
+    <string name="task_prompt_card_subtitle">在本机启动任务，并查看最近运行记录。</string>
     <string name="task_prompt_latest_task_label">最近任务</string>
     <string name="task_prompt_hint">描述希望智能体执行的内容</string>
     <string name="task_prompt_model_label">模型</string>
@@ -55,10 +55,10 @@
     <string name="task_prompt_invalid_timeout">请输入 1 到 1000 之间的数值</string>
     <string name="task_prompt_invalid_temperature">请输入 0 到 2 之间的数值</string>
     <string name="task_prompt_loading_models">正在加载模型…</string>
-    <string name="task_prompt_missing_api_key">启动任务需要 Mobilerun API Key。</string>
+    <string name="task_prompt_missing_api_key">启动任务需要 API Key。</string>
     <string name="task_prompt_unsupported_custom_url">任务启动仅支持以 /v1/providers/personal/join 结尾的 WebSocket 地址。</string>
     <string name="task_prompt_started">任务已在本设备启动。</string>
-    <string name="task_prompt_return_to_portal">任务结束后返回 Portal</string>
+    <string name="task_prompt_return_to_portal">任务结束后返回 OClaw</string>
     <string name="task_prompt_copy_success">任务 ID 已复制</string>
     <string name="task_prompt_cancel_button">取消任务</string>
     <string name="task_prompt_status_created">已创建</string>
@@ -210,11 +210,11 @@
     <string name="custom_connection">自定义连接</string>
     <string name="error_unauthorized_actionable">API Key 被拒绝，请重新登录或输入新的 Key。</string>
     <string name="sign_out_confirmation_title">要在此设备上退出登录吗？</string>
-    <string name="sign_out_confirmation_message">只会移除此 Portal 中保存的 Mobilerun 登录状态。</string>
+    <string name="sign_out_confirmation_message">只会移除此设备上保存的 OClaw Cloud 登录状态。</string>
     <string name="connection_failed_title">连接失败</string>
     <string name="error_unauthorized">未授权，请检查 API Key</string>
     <string name="error_limit_exceeded">设备数量已超限</string>
-    <string name="error_bad_request_actionable">已保存的 Mobilerun 凭据可能属于其他账号，请重新登录或更新连接。</string>
+    <string name="error_bad_request_actionable">已保存的 OClaw Cloud 凭据可能属于其他账号，请重新登录或更新连接。</string>
     <string name="error_bad_request">请求错误，请检查令牌和请求头</string>
     <string name="error_unknown">发生未知错误</string>
     <string name="connecting_subtitle">正在建立连接…</string>
@@ -246,8 +246,8 @@
     <string name="credits_no_reset_scheduled">未安排重置时间</string>
     <string name="credits_loading">正在加载额度…</string>
     <string name="credits_refreshing">正在刷新额度…</string>
-    <string name="credits_sign_in_required">请先登录 Mobilerun 或填写有效的 API Key 以查看额度。</string>
-    <string name="credits_unsupported_host">仅官方 Mobilerun 云端连接支持额度查询。</string>
+    <string name="credits_sign_in_required">请先登录 OClaw Cloud 或填写有效的 API Key 以查看额度。</string>
+    <string name="credits_unsupported_host">仅官方 OClaw Cloud 连接支持额度查询。</string>
     <string name="settings_title">设置</string>
     <string name="language_header">语言</string>
     <string name="language_title">应用语言</string>
@@ -287,6 +287,8 @@
     <string name="main_enter_ws_url">请输入 WebSocket 地址</string>
     <string name="main_invalid_ws_url">地址必须以 ws:// 或 wss:// 开头</string>
     <string name="main_connecting_custom_server">正在连接自定义服务...</string>
+    <string name="main_cloud_sign_in_unavailable">当前版本未内置默认的 OClaw Cloud 登录地址，请使用自定义连接。</string>
+    <string name="main_cloud_api_key_unavailable">当前版本未内置默认的 OClaw Cloud 服务地址，请使用自定义连接。</string>
     <string name="main_token_copied">令牌已复制</string>
     <string name="main_ip_unavailable">不可用（请检查 Wi‑Fi）</string>
     <string name="main_value_range_error">数值必须在 %1$d 到 %2$d 之间</string>
@@ -355,7 +357,7 @@
     <string name="trigger_editor_add_title">新增触发规则</string>
     <string name="trigger_editor_edit_title">编辑触发规则</string>
     <string name="trigger_rule_enabled">启用规则</string>
-    <string name="trigger_return_to_portal">任务结束后返回 Portal</string>
+    <string name="trigger_return_to_portal">任务结束后返回 OClaw</string>
     <string name="trigger_rule_name">规则名称</string>
     <string name="trigger_source">触发来源</string>
     <string name="trigger_prompt_template">提示词模板</string>
@@ -468,7 +470,7 @@
     <string name="weekday_short_friday">周五</string>
     <string name="weekday_short_saturday">周六</string>
     <string name="trigger_run_limit_usage">已使用 %1$d / %2$d 次成功启动。</string>
-    <string name="trigger_model_warning_fallback">当前 Mobilerun 连接未配置，正在使用回退模型列表。</string>
+    <string name="trigger_model_warning_fallback">当前云端连接未配置，正在使用回退模型列表。</string>
     <string name="trigger_exact_alarm_notice_unavailable">当前无法使用精确定时，按分钟执行的时间规则在授权前可能出现偏差。</string>
     <string name="trigger_delay_picker_title">选择延迟</string>
     <string name="trigger_date_picker_title">选择日期</string>
@@ -501,7 +503,8 @@
     <string name="trigger_permission_sms_receive">接收短信</string>
     <string name="trigger_runtime_missing_permissions">缺少权限：%1$s</string>
     <string name="trigger_runtime_matched">已匹配 %1$s</string>
-    <string name="trigger_runtime_launched_task">已启动 Portal 任务 %1$s</string>
-    <string name="trigger_runtime_skipped_busy">由于已有 Portal 任务在运行，本次已跳过</string>
+    <string name="trigger_runtime_launched_task">已启动 OClaw 任务 %1$s</string>
+    <string name="trigger_runtime_skipped_busy">由于已有 OClaw 任务在运行，本次已跳过</string>
+    <string name="settings_reverse_url_required">请先填写 WebSocket 服务地址，再启用云端连接。</string>
     <string name="trigger_runtime_rule_disabled_limit">达到运行次数限制后，规则已自动停用</string>
 </resources>

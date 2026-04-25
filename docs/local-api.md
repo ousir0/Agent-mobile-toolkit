@@ -1,6 +1,6 @@
 # Local API
 
-Droidrun Portal exposes local control over HTTP, WebSocket, and ContentProvider. Use these when the device is on the same network or connected via ADB.
+OClaw exposes local control over HTTP, WebSocket, and ContentProvider. Use these when the device is on the same network or connected via ADB.
 
 ## Auth token
 
@@ -79,7 +79,7 @@ the reverse notification shape.
 
 Install notes:
 
-- The device must allow **Install unknown apps** for Droidrun Portal.
+- The device must allow **Install unknown apps** for OClaw.
 - Enable **Install Auto-Accept** in Settings to auto-confirm install prompts.
 
 ### Binary screenshot responses
