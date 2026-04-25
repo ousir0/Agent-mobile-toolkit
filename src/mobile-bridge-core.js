@@ -143,6 +143,19 @@ export class MobileBridge {
           activity: args.activity,
           stopBeforeLaunch: args.stopBeforeLaunch ?? false,
         });
+      case 'tap':
+        return await this.#forward(action, args.deviceId, 'tap', {
+          x: args.x,
+          y: args.y,
+        });
+      case 'swipe':
+        return await this.#forward(action, args.deviceId, 'swipe', {
+          startX: args.startX,
+          startY: args.startY,
+          endX: args.endX,
+          endY: args.endY,
+          duration: args.duration ?? 300,
+        });
       case 'find_element':
         return await this.#forward(action, args.deviceId, 'ui/find', {
           selector: args.selector || {},
@@ -163,6 +176,11 @@ export class MobileBridge {
       case 'capture_screen':
         return await this.#forward(action, args.deviceId, 'screenshot', {
           hideOverlay: args.hideOverlay ?? true,
+        });
+      case 'upload_file':
+        return await this.#forward(action, args.deviceId, 'files/upload', {
+          path: args.path,
+          data: args.dataBase64,
         });
       case 'list_packages':
         return await this.#forward(action, args.deviceId, 'packages', {});

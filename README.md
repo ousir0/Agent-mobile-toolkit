@@ -15,6 +15,30 @@ Agent Mobile Toolkit packages the full mobile automation path into one repo:
 
 This means you can connect one phone and reuse it across multiple agent runtimes instead of building a new mobile integration for each one.
 
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+  phone["Android phone<br/>Portal APK"] --> ws["Reverse WebSocket bridge<br/>local computer"]
+  ws --> mcp["MCP server"]
+  ws --> plugin["OpenClaw plugin callback"]
+  mcp --> codex["Codex"]
+  mcp --> claude["Claude"]
+  plugin --> openclaw["OpenClaw"]
+```
+
+## 🔗 Connection at a glance
+
+```text
+Phone
+  -> ws://<LAN-IP>:8787/v1/providers/personal/join
+  -> token: 123456
+
+Computer
+  -> bridge: http://127.0.0.1:8787/bridge
+  -> MCP / plugin callback
+```
+
 ## 🎯 Typical scenarios
 
 Use Agent Mobile Toolkit when your agent needs to:
@@ -24,7 +48,9 @@ Use Agent Mobile Toolkit when your agent needs to:
 3. 👆 Find and click UI elements by selector
 4. ⌨️ Input text into search bars, forms, or chat boxes
 5. 📸 Capture screenshots for reasoning and verification
-6. 🔁 Reuse the same mobile workflow across Codex, OpenClaw, and Claude
+6. 📍 Fall back to coordinate tap or swipe when accessibility data is incomplete
+7. 📤 Upload screenshots or assets to the device before a mobile task starts
+8. 🔁 Reuse the same mobile workflow across Codex, OpenClaw, and Claude
 
 Typical real-world examples:
 
@@ -56,12 +82,23 @@ It connects to a bridge, and the bridge exposes stable agent-facing tools.
 1. `mobile_list_devices`
 2. `mobile_read_state`
 3. `mobile_open_app`
-4. `mobile_find_element`
-5. `mobile_click_element`
-6. `mobile_input_text`
-7. `mobile_capture_screen`
+4. `mobile_tap_screen`
+5. `mobile_swipe_screen`
+6. `mobile_find_element`
+7. `mobile_click_element`
+8. `mobile_input_text`
+9. `mobile_upload_file`
+10. `mobile_capture_screen`
 
 These are the stable low-level tools you can build workflows on top of.
+
+## 🧪 Practical operating pattern
+
+1. Call `mobile_list_devices`
+2. Call `mobile_read_state`
+3. Prefer selector-based automation first
+4. If the UI tree is incomplete, capture a screenshot and switch to coordinate tap or swipe
+5. If the task needs images or files on the phone, upload them first and then continue the app flow
 
 ## 📦 APK download
 

@@ -119,4 +119,56 @@ describe('bridge server', () => {
     expect(inputPayload.details.result.method).toBe('ui/input');
     socket.close();
   });
+
+  it('forwards tap, swipe, and upload_file to connected device', async () => {
+    await listen(createBridgeServer({
+      host: '127.0.0.1',
+      wsPort: 9075,
+      httpPort: 9076,
+      token: 'bridge-token',
+      pluginSecret: 'plugin-secret',
+    }));
+
+    const socket = await connectFakeDevice({ port: 9076, token: 'bridge-token' });
+
+    const tapRes = await fetch('http://127.0.0.1:9076/bridge', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-mcp-bridge-secret': 'plugin-secret',
+      },
+      body: JSON.stringify({ action: 'tap', args: { deviceId: 'device-1', x: 120, y: 340 } }),
+    });
+    const tapPayload = await tapRes.json();
+    expect(tapPayload.details.result.method).toBe('tap');
+
+    const swipeRes = await fetch('http://127.0.0.1:9076/bridge', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-mcp-bridge-secret': 'plugin-secret',
+      },
+      body: JSON.stringify({
+        action: 'swipe',
+        args: { deviceId: 'device-1', startX: 100, startY: 200, endX: 300, endY: 400, duration: 500 },
+      }),
+    });
+    const swipePayload = await swipeRes.json();
+    expect(swipePayload.details.result.method).toBe('swipe');
+
+    const uploadRes = await fetch('http://127.0.0.1:9076/bridge', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-mcp-bridge-secret': 'plugin-secret',
+      },
+      body: JSON.stringify({
+        action: 'upload_file',
+        args: { deviceId: 'device-1', path: '/sdcard/Pictures/test.png', dataBase64: 'ZmFrZQ==' },
+      }),
+    });
+    const uploadPayload = await uploadRes.json();
+    expect(uploadPayload.details.result.method).toBe('files/upload');
+    socket.close();
+  });
 });

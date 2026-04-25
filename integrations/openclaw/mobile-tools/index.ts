@@ -115,16 +115,6 @@ const plugin = {
     });
 
     api.registerTool({
-      name: 'mobile_list_scenarios',
-      label: 'Mobile List Scenarios',
-      description: 'List standardized mobile scenarios that OClaw can run on Android devices.',
-      parameters: Type.Object({}, { additionalProperties: false }),
-      async execute(_id: string) {
-        return invokeMobileBridge(config, 'list_scenarios', {});
-      },
-    });
-
-    api.registerTool({
       name: 'mobile_read_state',
       label: 'Mobile Read State',
       description: 'Read the current UI state tree of a mobile device.',
@@ -149,6 +139,37 @@ const plugin = {
       }, { additionalProperties: false }),
       async execute(_id: string, params: Record<string, unknown>) {
         return invokeMobileBridge(config, 'open_app', params);
+      },
+    });
+
+    api.registerTool({
+      name: 'mobile_tap_screen',
+      label: 'Mobile Tap Screen',
+      description: 'Tap a screen coordinate directly when selector-based automation is unavailable.',
+      parameters: Type.Object({
+        deviceId: DeviceIdSchema,
+        x: Type.Number(),
+        y: Type.Number(),
+      }, { additionalProperties: false }),
+      async execute(_id: string, params: Record<string, unknown>) {
+        return invokeMobileBridge(config, 'tap', params);
+      },
+    });
+
+    api.registerTool({
+      name: 'mobile_swipe_screen',
+      label: 'Mobile Swipe Screen',
+      description: 'Swipe between two screen coordinates when selector-based automation is unavailable.',
+      parameters: Type.Object({
+        deviceId: DeviceIdSchema,
+        startX: Type.Number(),
+        startY: Type.Number(),
+        endX: Type.Number(),
+        endY: Type.Number(),
+        duration: Type.Optional(Type.Number({ minimum: 0 })),
+      }, { additionalProperties: false }),
+      async execute(_id: string, params: Record<string, unknown>) {
+        return invokeMobileBridge(config, 'swipe', params);
       },
     });
 
@@ -195,6 +216,20 @@ const plugin = {
     });
 
     api.registerTool({
+      name: 'mobile_upload_file',
+      label: 'Mobile Upload File',
+      description: 'Upload a local file to the Android device as base64 data.',
+      parameters: Type.Object({
+        deviceId: DeviceIdSchema,
+        path: Type.String({ minLength: 1 }),
+        dataBase64: Type.String({ minLength: 1 }),
+      }, { additionalProperties: false }),
+      async execute(_id: string, params: Record<string, unknown>) {
+        return invokeMobileBridge(config, 'upload_file', params);
+      },
+    });
+
+    api.registerTool({
       name: 'mobile_capture_screen',
       label: 'Mobile Capture Screen',
       description: 'Capture the current device screenshot.',
@@ -204,43 +239,6 @@ const plugin = {
       }, { additionalProperties: false }),
       async execute(_id: string, params: Record<string, unknown>) {
         return invokeMobileBridge(config, 'capture_screen', params);
-      },
-    });
-
-    api.registerTool({
-      name: 'mobile_run_xiaohongshu_search',
-      label: 'Mobile Run XiaoHongShu Search',
-      description: 'Run a reusable XiaoHongShu search scenario: open app, enter keyword, submit search, and return final state.',
-      parameters: Type.Object({
-        deviceId: DeviceIdSchema,
-        keyword: Type.String({ minLength: 1 }),
-        packageName: Type.Optional(Type.String({ minLength: 1 })),
-        activity: Type.Optional(Type.String()),
-        stopBeforeLaunch: Type.Optional(Type.Boolean()),
-        openDelayMs: Type.Optional(Type.Number({ minimum: 0 })),
-        betweenStepDelayMs: Type.Optional(Type.Number({ minimum: 0 })),
-        resultStateFilter: Type.Optional(Type.Boolean()),
-        entrySelectors: Type.Optional(Type.Array(SelectorSchema)),
-        inputSelectors: Type.Optional(Type.Array(SelectorSchema)),
-        submitSelectors: Type.Optional(Type.Array(SelectorSchema)),
-        resultAnchorSelectors: Type.Optional(Type.Array(SelectorSchema)),
-      }, { additionalProperties: false }),
-      async execute(_id: string, params: Record<string, unknown>) {
-        return invokeMobileBridge(config, 'run_xiaohongshu_search', params);
-      },
-    });
-
-    api.registerTool({
-      name: 'mobile_run_scenario',
-      label: 'Mobile Run Scenario',
-      description: 'Run a standardized mobile scenario by scenarioId and payload.',
-      parameters: Type.Object({
-        scenarioId: Type.String({ minLength: 1 }),
-        deviceId: DeviceIdSchema,
-        payload: Type.Optional(Type.Object({}, { additionalProperties: true })),
-      }, { additionalProperties: false }),
-      async execute(_id: string, params: Record<string, unknown>) {
-        return invokeMobileBridge(config, 'run_scenario', params);
       },
     });
 

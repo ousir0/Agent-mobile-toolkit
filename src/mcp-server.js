@@ -95,6 +95,29 @@ server.tool(
   async (args) => await invokeBridge('open_app', args),
 );
 server.tool(
+  'mobile_tap_screen',
+  'Tap a screen coordinate directly when selector-based automation is unavailable.',
+  {
+    deviceId: z.string().min(1),
+    x: z.number(),
+    y: z.number(),
+  },
+  async (args) => await invokeBridge('tap', args),
+);
+server.tool(
+  'mobile_swipe_screen',
+  'Swipe between two screen coordinates when selector-based automation is unavailable.',
+  {
+    deviceId: z.string().min(1),
+    startX: z.number(),
+    startY: z.number(),
+    endX: z.number(),
+    endY: z.number(),
+    duration: z.number().optional(),
+  },
+  async (args) => await invokeBridge('swipe', args),
+);
+server.tool(
   'mobile_find_element',
   'Find UI elements by selector.',
   {
@@ -123,6 +146,16 @@ server.tool(
     selector: selectorSchema.optional(),
   },
   async (args) => await invokeBridge('input_text', args),
+);
+server.tool(
+  'mobile_upload_file',
+  'Upload a local file to the Android device as base64 data.',
+  {
+    deviceId: z.string().min(1),
+    path: z.string().min(1),
+    dataBase64: z.string().min(1),
+  },
+  async (args) => await invokeBridge('upload_file', args),
 );
 server.tool(
   'mobile_capture_screen',
